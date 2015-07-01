@@ -25,17 +25,19 @@
  * then any number in that interval will receive pertinence value 0.5.
  */
 
-class FuzzySet {
-    double le, lm, rm, re;
-public:
-    FuzzySet( double, double, double, double );
+class FuzzySet
+{
+		double le, lm, rm, re;
+	public:
+		FuzzySet ( double, double, double, double );
 
-    /* Returns how much the given number belong to this fuzzy set.
-     */
-    double pertinence( double ) const;
-    double operator()( double d ) const {
-        return pertinence( d );
-    }
+		/* Returns how much the given number belong to this fuzzy set.
+		 */
+		double pertinence ( double ) const;
+		double operator() ( double d ) const
+		{
+			return pertinence ( d );
+		}
 };
 
 #endif // FUZZY_SET_H

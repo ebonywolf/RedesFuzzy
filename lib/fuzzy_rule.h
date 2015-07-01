@@ -9,22 +9,24 @@
 
 #include "fuzzy_set.h"
 
-class FuzzyRule {
-    FuzzySet input[3];
-    FuzzySet output;
+class FuzzyRule
+{
+		FuzzySet input[3];
+		FuzzySet output;
 
-public:
-    FuzzyRule( FuzzySet, FuzzySet, FuzzySet, FuzzySet output );
+	public:
+		FuzzyRule ( FuzzySet, FuzzySet, FuzzySet, FuzzySet output );
 
-    /* Returns the intensity of which this rule is actived
-     * for the given output value.
-     *
-     * Se the documentation for details.
-     */
-    double intensity( double, double, double, double output_value ) const;
-    double operator()( double x, double y, double angle, double output ) const {
-        return intensity( x, y, angle, output );
-    }
+		/* Returns the intensity of which this rule is actived
+		 * for the given output value.
+		 *
+		 * Se the documentation for details.
+		 */
+		double intensity ( double, double, double, double output_value ) const;
+		double operator() ( double x, double y, double angle, double output ) const
+		{
+			return intensity ( x, y, angle, output );
+		}
 };
 
 #endif // FUZZY_RULE_H

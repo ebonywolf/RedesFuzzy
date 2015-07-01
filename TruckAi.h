@@ -4,14 +4,14 @@
 
 class TruckAi
 {
-    public:
+	public:
 
-        TruckAi();
-        double process(ServerResponsePackage info);
+		TruckAi();
+		double process ( ServerResponsePackage info );
 
-        virtual ~TruckAi();
-    protected:
-    private:
+		virtual ~TruckAi();
+	protected:
+	private:
 };
 
 #endif // TRUCKAI_H

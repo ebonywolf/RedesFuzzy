@@ -11,14 +11,15 @@
 #include <vector>
 #include "fuzzy_rule.h"
 
-class FuzzyRuleSet {
-    std::vector<FuzzyRule> rules;
+class FuzzyRuleSet
+{
+		std::vector<FuzzyRule> rules;
 
-public:
-    FuzzyRuleSet( std::vector<FuzzyRule> );
+	public:
+		FuzzyRuleSet ( std::vector<FuzzyRule> );
 
-    // Computes the target rule.
-    double operator()( double x, double y, double angle ) const;
+		// Computes the target rule.
+		double operator() ( double x, double y, double angle ) const;
 };
 
 #endif // FUZZY_RULE_SET_H
