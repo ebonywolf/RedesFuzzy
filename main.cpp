@@ -9,7 +9,7 @@
 #include <fstream>
 #include <vector>
 
-#include "source/opennn.h"
+#include <opennn.h>
 
 using namespace std;
 
@@ -77,11 +77,11 @@ vector<vector<double>> filter ( vector<vector<double>> vetor, double margin )
 	};
 	vector<vector<double>> filtered;
 	for ( auto x : vetor ) {
-        bool add=true;
+		bool add = true;
 		for ( auto y : vetor ) {
 			double total = 0;
 			for ( int i = 0; i < x.size(); i++ ) {
-			    total+= dist(x[i],y[i]);
+				total += dist ( x[i], y[i] );
 			}
 
 		}
@@ -104,44 +104,44 @@ int main()
 
 
 	//if ( output.is_open() ) {
-	OpenNN::NeuralNetwork neuralNetwork("neural_network.xml");
+	OpenNN::NeuralNetwork neuralNetwork ( "neural_network.xml" );
 
-		MyTruckClient client;
-		try {
-			client.conn ( DEFAULT_HOST, PLAYER1_PORT, 2 );
-		} catch ( TruckClientException  &e ) {
-			cout << e << endl;
-			return main();
+	MyTruckClient client;
+	try {
+		client.conn ( DEFAULT_HOST, PLAYER1_PORT, 2 );
+	} catch ( TruckClientException  &e ) {
+		cout << e << endl;
+		return main();
+	}
+	try {
+		while ( true ) {
+			ServerResponsePackage originalData = client.getTruckData();
+			ServerResponsePackage data = originalData;
+			// Normalize the angle so that 0.0 points toward the parking lot.
+			data.angle = std::fmod ( data.angle + 90, 360.0 ) - 180.0;
+			data.x -= 0.5;
+
+			double instruction = rules::rules ( data.x, data.y, data.angle );
+
+			std::cout << "x = " << data.x << " - "
+			          << "y = " << data.y << " - "
+			          << "angle = " << data.angle << " - "
+			          << "sent = " << instruction << '\n';
+
+			//  output<<originalData.x<<'\t'<<originalData.y<<'\t'<<originalData.angle<<'\t'<<instruction<<'\n';
+			OpenNN::Vector<double> input;
+			input.resize ( 10 );
+			input[0] = originalData.x;
+			input[1] = originalData.y;
+			input[2] = originalData.angle;
+
+			OpenNN::Vector<double> output = neuralNetwork.calculate_outputs ( input );
+
+			client.sendTruckInstruction ( output[0] ); // 30 degrees
 		}
-		try {
-			while ( true ) {
-				ServerResponsePackage originalData = client.getTruckData();
-                ServerResponsePackage data=originalData;
-				// Normalize the angle so that 0.0 points toward the parking lot.
-				data.angle = std::fmod ( data.angle + 90, 360.0 ) - 180.0;
-				data.x -= 0.5;
-
-				double instruction = rules::rules ( data.x, data.y, data.angle );
-
-				std::cout << "x = " << data.x << " - "
-				          << "y = " << data.y << " - "
-				          << "angle = " << data.angle << " - "
-				          << "sent = " << instruction << '\n';
-
-              //  output<<originalData.x<<'\t'<<originalData.y<<'\t'<<originalData.angle<<'\t'<<instruction<<'\n';
-				OpenNN::Vector<double> input;
-				input.resize(10);
-				input[0]=originalData.x;
-				input[1]=originalData.y;
-				input[2]=originalData.angle;
-
-				OpenNN::Vector<double> output=neuralNetwork.calculate_outputs(input);
-
-				client.sendTruckInstruction ( output[0] ); // 30 degrees
-			}
-		} catch ( TruckClientException  &e ) {
-			cout << e << endl;
-		}
+	} catch ( TruckClientException  &e ) {
+		cout << e << endl;
+	}
 	//} else {
 	//	std::cout << "unable to open file" << std::endl;
 	//}
