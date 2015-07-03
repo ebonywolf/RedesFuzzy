@@ -13,9 +13,7 @@
 class NeuralTrainer
 {
 	public:
-		static void train();
-
-
+		static void train(int);
 
 		virtual ~NeuralTrainer() {}
 	protected:

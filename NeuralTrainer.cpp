@@ -2,7 +2,7 @@
 
 using namespace OpenNN;
 
-void NeuralTrainer::train()
+void NeuralTrainer::train(int neurons)
 {
 	try {
 		std::cout << "OpenNN. Simple Pattern Recognition Application." << std::endl;
@@ -31,7 +31,7 @@ void NeuralTrainer::train()
 
 		// Neural network object
 
-		NeuralNetwork neural_network ( 3, 25, 1 );
+		NeuralNetwork neural_network ( 3, neurons, 1 );
 
 		neural_network.set_inputs_outputs_information ( variables_information );
 		neural_network.set_inputs_outputs_statistics ( variables_statistics );
@@ -73,7 +73,12 @@ void NeuralTrainer::train()
 
 	}
 
-
+}
+int main(){
+    std::cout<< "digite o numero de neuronios centrais para o treinamento:" <<std::endl;
+    int n;
+    std::cin>>n;
+    NeuralTrainer::train(n);
 
 
 }
