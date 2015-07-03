@@ -1,0 +1,66 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes}
+
+\begin{document}
+
+\title{
+    INE5430 --- Inteligência Artificial \\
+    NeuroTruck --- Rede Neural Estacionadora de Caminhões
+}
+\author{
+    \begin{tabular}{r l}
+        Lucas Berri Cristofolini & 12100757 \\
+        Tiago Royer & 12100776 \\
+        Wagner Fernando Gascho & 12100779
+    \end{tabular}
+}
+
+\maketitle
+
+\section{Introdução}
+
+O objetivo deste trabalho era construir uma rede neural
+que fosse capaz de estacionar um caminhão,
+a partir do sistema fuzzy que estaciona o caminhão
+feito para o trabalho anterior.
+
+Utilizamos a biblioteca de redes neurais OpenNN (\verb"http://opennn.cimne.com/").
+
+\section{Implementação}
+
+Colocamos o sistema fuzzy do trabalho anterior para dirigir o caminhão
+em diversos pontos iniciais.
+Anotamos as quádruplas ordenadas com as entradas e a saída do sistema fuzzy
+no arquivo \verb"data.dat";
+e então fizemos a rede neural aprender este conjunto de dados.
+
+O programa que faz o treinamento é \verb"NeuralTrainer",
+de \verb"NeuralTrainer.cpp"; este programa lê \verb"data.dat"
+e escreve o resultado do treinamento em \verb"neural_network.xml".
+Os testes indicaram que $25$ neurônios internos são suficientes
+para que a rede aprenda o conjunto de dados.
+\footnote{
+    Um comportamento interessante foi observado quando deixamos a rede
+    com apenas $7$ neurônios internos.
+    Estranhamente, o ``neurotruck''
+    sempre tentava se jogar contra a parede da esquerda,
+    não importando onde fosse colocado...
+}
+
+O programa \verb"main" lê \verb"neural_network.xml"
+e usa os pesos gravados neste arquivo para se comunicar com o servidor.
+
+No geral, o desempenho da rede neural foi um pouco melhor que o do FuzzyTruck;
+acreditamos que este comportamento
+seja devido às posições iniciais do caminhão que foram utilizadas
+para gravar \verb"data.dat"
+--- isto é, a rede neural aprendeu as ``melhores partes'' do FuzzyTruck.
+
+\end{document}
