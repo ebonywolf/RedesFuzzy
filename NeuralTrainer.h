@@ -8,7 +8,7 @@
 
 // OpenNN includes
 
-#include "opennn.h"
+#include <opennn.h>
 
 class NeuralTrainer
 {
